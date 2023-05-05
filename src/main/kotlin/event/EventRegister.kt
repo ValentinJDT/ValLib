@@ -4,9 +4,7 @@ object EventRegister {
 
     private val listeners = mutableListOf<Listener>();
 
-    fun runEvent(event: Event): Boolean = if(listeners.size == 0) true else listeners.all { it.execute(it, event) }
-
-    fun runEvent(event: Event, parent: Boolean): Boolean = if(listeners.size == 0) true else listeners.all { it.execute(it, event, parent) }
+    fun runEvent(event: Event, parent: Boolean = false): Boolean = if(listeners.size == 0) true else listeners.all { it.execute(event, parent) }
 
     fun registerListener(listener: Listener) {
         listeners += listener

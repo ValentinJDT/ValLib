@@ -2,10 +2,10 @@ package fr.valentin.lib.vallib.plugin
 
 import fr.valentin.lib.vallib.event.EventRegister
 import fr.valentin.lib.vallib.plugin.event.*
+import fr.valentin.lib.vallib.utils.normalize
 import java.io.File
 import java.net.URL
 import java.net.URLClassLoader
-import java.text.Normalizer
 import java.util.Locale
 import java.util.Properties
 
@@ -80,12 +80,6 @@ class PluginLoader<T : IPlugin>(val directory: String) {
             return clazz.name.substring(clazz.name.lastIndexOf(".") + 1).lowercase(Locale.getDefault());
         }
 
-        private val REGEX_UNACCENT = "\\p{InCOMBINING_DIACRITICAL_MARKS}+".toRegex()
-
-        fun String.normalize(): String {
-            val temp = Normalizer.normalize(this, Normalizer.Form.NFD)
-            return REGEX_UNACCENT.replace(temp, "")
-        }
     }
 
     fun enableAllPlugins() {
