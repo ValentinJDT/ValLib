@@ -9,7 +9,7 @@ You can find :
 And others functions in the package : `fr.valentin.lib.vallib.utils`
 
 
-## Intallation
+## Installation
 
 Add repository :
 ```groovy
