@@ -6,4 +6,4 @@ You can find :
 - PluginLoader (+ Plugin API)
 - YamlReader (Does not support lists at the moment)
 
-And other functions in the package : `fr.valentin.lib.vallib.utils`
+And others functions in the package : `fr.valentin.lib.vallib.utils`
