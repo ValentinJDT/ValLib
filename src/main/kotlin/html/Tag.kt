@@ -41,7 +41,7 @@ open class Tag {
 
     override fun toString(): String {
         val rendered = render()
-        return if (str == null) "<$tag${ if(className != null) " class=\"$className\"" else ""}${properties.map { " ${it.key}=\"${it.value}\"" }.joinToString("")}${if(rendered != "") ">${render()}</$tag>" else "/>"}" else str!!
+        return if (str == null) "<$tag${ if(className != null) " class=\"$className\"" else ""}${properties.map { " ${it.key}=\"${it.value}\"" }.joinToString("")}${if(rendered != "") ">${rendered}</$tag>" else "/>"}" else str!!
     }
 }
 
