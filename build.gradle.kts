@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "fr.valentin.lib"
-version = "0.1.5"
+version = "0.1.8"
 
 repositories {
     mavenCentral()

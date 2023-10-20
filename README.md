@@ -27,7 +27,7 @@ Add implementation :
 ```groovy
 dependencies {
     /* Others dependencies */
-    implementation("com.github.ValentinJDT:ValLib:v0.1.5")
+    implementation("com.github.ValentinJDT:ValLib:v0.1.8")
 }
 ```
 
