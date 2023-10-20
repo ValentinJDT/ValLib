@@ -9,6 +9,7 @@ class InitOnceProperty<T>: ReadWriteProperty<Any, T> {
 
     private var value: Any? = EMPTY
 
+    @Suppress("UNCHECKED_CAST")
     override fun getValue(thisRef: Any, property: KProperty<*>): T {
         if (value == EMPTY) {
             throw IllegalStateException("Value isn't initialized")

@@ -13,7 +13,7 @@ open class Tag {
 
     private val properties = HashMap<String, String>()
 
-    @Deprecated("Use set(key, value) instead of.")
+    @Deprecated("Can be unstable.", ReplaceWith("set(key, value)"))
     var className: String? = null
     val innerTags = ArrayList<Tag>()
     var str: String? = null
