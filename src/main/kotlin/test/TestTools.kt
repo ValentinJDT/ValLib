@@ -16,10 +16,16 @@ annotation class Test(val throwError: Boolean = false, val order: Int = 100)
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class Qualifier(val value: String)
 
+/**
+ * Define a class as a container of beans.
+ */
 interface BeanContainer {
     fun beans(): Map<String, Any>
 }
 
+/**
+ * Define a class as a tested class.
+ */
 abstract class TestClass: BeanContainer {
     init {
         val beans = beans()
@@ -74,6 +80,9 @@ abstract class TestClass: BeanContainer {
         }
     }
 
+    /**
+     * Override this function and define the beans to inject in the tested class.
+     */
     final override fun beans(): Map<String, Any> {
         return emptyMap()
     }
