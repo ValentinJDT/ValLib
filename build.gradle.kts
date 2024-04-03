@@ -1,17 +1,19 @@
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.9.21"
     id("maven-publish")
 }
 
 group = "fr.valentin.lib"
-version = "0.1.8"
+version = "0.2.0"
+
+val JDK_VERSION: Int = 17
 
 repositories {
     mavenCentral()
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(JDK_VERSION)
 }
 
 publishing {
@@ -28,6 +30,6 @@ publishing {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(JDK_VERSION))
     }
 }

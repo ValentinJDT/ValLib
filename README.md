@@ -6,6 +6,7 @@ You can find :
 - PluginLoader (+ Plugin API)
 - Html builder
 - YamlReader (Does not support lists at the moment)
+- Test framework
 
 And others functions in the package : `fr.valentin.lib.vallib.utils`
 
@@ -27,7 +28,7 @@ Add implementation :
 ```groovy
 dependencies {
     /* Others dependencies */
-    implementation("com.github.ValentinJDT:ValLib:v0.1.8")
+    implementation("com.github.ValentinJDT:ValLib:v0.2.0")
 }
 ```
 

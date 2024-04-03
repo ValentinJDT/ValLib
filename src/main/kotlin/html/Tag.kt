@@ -1,4 +1,4 @@
-package html
+package fr.valentin.lib.vallib.html
 
 typealias Body = Tag.() -> Unit
 
