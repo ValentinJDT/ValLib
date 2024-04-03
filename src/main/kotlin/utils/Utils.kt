@@ -1,6 +1,5 @@
 package fr.valentin.lib.vallib.utils
 
-import fr.valentin.lib.vallib.plugin.PluginLoader
 import java.text.Normalizer
 import java.util.logging.Logger
 import kotlin.reflect.KClass
