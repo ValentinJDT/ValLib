@@ -1,4 +1,4 @@
-package instances
+package fr.valentin.lib.vallib.instances
 
 import java.lang.reflect.InvocationTargetException
 import java.util.*
