@@ -19,10 +19,6 @@ kotlin {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = group as String
-            artifactId = rootProject.name
-            version = version
-
             from(components["java"])
         }
     }
