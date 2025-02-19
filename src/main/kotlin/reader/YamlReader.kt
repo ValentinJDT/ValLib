@@ -17,6 +17,21 @@ class YamlReader(inputStream: InputStream) {
                 continue
             }
 
+            if(line.contains("[") && line.contains("]")) {
+                val listItems = line.substringAfter(":").replace("[", "").replace("]", "")
+                    .split(",").map { it.trim().replace("\"", "") }.toMutableList()
+                properties[line.substringBefore(":").trim()] = listItems
+                continue
+            }
+            
+            if(line.trim().startsWith("-")) {
+                val listKey = currentKey.takeIf { it.isNotEmpty() } ?: "listKey"
+                val existing = properties[listKey] as? MutableList<String> ?: mutableListOf()
+                existing.add(line.trim().substring(1).trim().replace("\"", ""))
+                properties[listKey] = existing
+                continue
+            }
+
             val elements = line.split(":")
 
             if(elements[1].isEmpty()) {
@@ -53,6 +68,9 @@ class YamlReader(inputStream: InputStream) {
     fun getFloat(key: String): Float? = (properties[key] as? String)?.convert()
     fun getInt(key: String): Int? = (properties[key] as? String)?.convert()
     fun getBoolean(key: String): Boolean? = (properties[key] as? String)?.convert()
+    fun getStringList(key: String): List<String>? {
+        return properties[key] as? List<String>
+    }
 
     @Suppress("UNCHECKED_CAST")
     inline fun <reified T> getValue(properties: Map<String, String>, key: String): T? {
