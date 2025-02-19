@@ -7,6 +7,7 @@ You can find :
 - Html builder
 - YamlReader (Does not support lists at the moment)
 - Test framework
+- Socket connection : client and server (Kotlin + Java version)
 
 And others functions in the package : `fr.valentin.lib.vallib.utils`
 
