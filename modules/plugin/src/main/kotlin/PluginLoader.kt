@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package fr.valentinjdt.lib.plugin
 
 import fr.valentinjdt.lib.plugin.event.*
