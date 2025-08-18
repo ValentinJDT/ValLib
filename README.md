@@ -7,8 +7,9 @@ You can find :
 - Html builder
 - YamlReader (Does not support lists at the moment)
 - Test framework
+- Socket connection : client and server (Kotlin + Java version)
 
-And others functions in the package : `fr.valentin.lib.vallib.utils`
+And others functions in the package : `fr.valentinjdt.lib.utils`
 
 
 ## Installation
@@ -33,7 +34,7 @@ dependencies {
 ```
 
 Compile lib in your project :
-```groovy
+```kotlin
 jar {
     from {
         configurations

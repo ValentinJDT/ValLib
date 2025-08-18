@@ -8,6 +8,16 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/modules" />
+            <option value="$PROJECT_DIR$/modules/configuration" />
+            <option value="$PROJECT_DIR$/modules/connection" />
+            <option value="$PROJECT_DIR$/modules/event" />
+            <option value="$PROJECT_DIR$/modules/html" />
+            <option value="$PROJECT_DIR$/modules/instances" />
+            <option value="$PROJECT_DIR$/modules/plugin" />
+            <option value="$PROJECT_DIR$/modules/readers" />
+            <option value="$PROJECT_DIR$/modules/tests" />
+            <option value="$PROJECT_DIR$/modules/utils" />
           </set>
         </option>
       </GradleProjectSettings>
