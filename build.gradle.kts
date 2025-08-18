@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "fr.valentinjdt.lib"
-version = "0.2.0"
+version = "1.0.0"
 
 val JDK_VERSION: Int = 17
 
