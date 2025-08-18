@@ -4,7 +4,7 @@ plugins {
     id("maven-publish")
 }
 
-group = "fr.valentinjdt.lib"
+group = property("group") as String
 version = property("version") as String
 
 val JDK_VERSION: Int = 17
@@ -44,8 +44,8 @@ subprojects {
     apply(plugin = "kotlin")
     apply(plugin = "maven-publish")
 
-    this@subprojects.group = this.group
-    this@subprojects.version = this.version
+    this@subprojects.group = property("group") as String
+    this@subprojects.version = property("version") as String
 
     repositories {
         mavenCentral()
