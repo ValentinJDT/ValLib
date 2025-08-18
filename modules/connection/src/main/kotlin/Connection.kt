@@ -463,7 +463,7 @@ class ClientSocketHandler(
      */
     private fun handleMessage(message: String?) {
         if ("KICK" == message) {
-            kickCallbacks.forEach { Runnable::run }
+            kickCallbacks.forEach { _ -> Runnable::run }
             LOGGER.warning("Kicked from server.")
             try {
                 socket!!.close()
