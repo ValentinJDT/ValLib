@@ -25,3 +25,12 @@ jobs:
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: jar
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
+        with:
+          name: ValLib ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            build/libs/ValLib-*.jar
+            modules/*/build/libs/*.jar

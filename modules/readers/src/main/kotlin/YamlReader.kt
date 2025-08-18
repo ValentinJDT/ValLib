@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package fr.valentinjdt.lib.reader
 
 import java.io.InputStream
@@ -26,8 +28,10 @@ class YamlReader(inputStream: InputStream) {
             
             if(line.trim().startsWith("-")) {
                 val listKey = currentKey.takeIf { it.isNotEmpty() } ?: "listKey"
-                val existing = properties[listKey] as? MutableList<String> ?: mutableListOf()
-                existing.add(line.trim().substring(1).trim().replace("\"", ""))
+                val existing = (properties[listKey] as? MutableList<String> ?: mutableListOf()).apply {
+                    add(line.trim().substring(1).trim().replace("\"", ""))
+                }
+
                 properties[listKey] = existing
                 continue
             }

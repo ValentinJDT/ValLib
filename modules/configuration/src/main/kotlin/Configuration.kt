@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package fr.valentinjdt.lib.configuration
 
 import java.io.FileInputStream
@@ -32,7 +34,7 @@ class Configuration<T>(val file: Path): Serializable {
     fun load(): T? {
         val fileInputStream = FileInputStream(file.toString())
         val objectInputStream = ObjectInputStream(fileInputStream)
-        obj = objectInputStream.readObject() as T
+        obj = objectInputStream.readObject() as T?
         objectInputStream.close()
         return obj
     }

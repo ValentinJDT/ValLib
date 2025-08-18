@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package fr.valentinjdt.lib.instances
 
 import java.lang.reflect.InvocationTargetException
