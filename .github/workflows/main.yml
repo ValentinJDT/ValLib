@@ -33,4 +33,4 @@ jobs:
           generate_release_notes: true
           files: |
             build/libs/ValLib-*.jar
-            modules/*/build/libs/*.jar
+            modules/*/build/libs/ValLib-*.jar
