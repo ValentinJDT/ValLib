@@ -1,3 +1,5 @@
+@file:Suppress("MUST_BE_INITIALIZED_OR_FINAL_OR_ABSTRACT_WARNING")
+
 package fr.valentinjdt.lib.html
 
 typealias Body = Tag.() -> Unit
@@ -11,10 +13,12 @@ open class Tag {
     open val tag: String
     open var parent: Tag? = null
 
-    private val properties = HashMap<String, String>()
+    private val properties = HashMap<String, String?>()
 
-    @Deprecated("Can be unstable.", ReplaceWith("set(key, value)"))
-    var className: String? = null
+    var className: String?
+        get() = properties["class"]
+        set(value) { properties["class"] = value ?: "" }
+
     val innerTags = ArrayList<Tag>()
     var str: String? = null
 
