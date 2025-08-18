@@ -29,6 +29,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: github.ref_type == 'tag'
         with:
+          name: ValLib ${{ github.ref_name }}
+          generate_release_notes: true
           files: |
             build/libs/ValLib-*.jar
             modules/*/build/libs/*.jar
