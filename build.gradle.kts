@@ -55,6 +55,10 @@ subprojects {
         jvmToolchain(JDK_VERSION)
     }
 
+    tasks.jar {
+        archiveBaseName = "ValLib-${project.name}"
+    }
+
     publishing {
         publications {
             create<MavenPublication>("maven") {
