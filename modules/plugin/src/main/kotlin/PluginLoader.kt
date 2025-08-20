@@ -189,7 +189,6 @@ class PluginLoader<T : IPlugin>(val directory: String) {
 
         val defaultClass = properties.getProperty("main")
 
-
         val clazz = try {
             classLoader.loadClass(defaultClass) as Class<out T>
         } catch(exception: ClassNotFoundException) {
