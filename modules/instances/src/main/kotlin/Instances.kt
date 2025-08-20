@@ -43,8 +43,8 @@ object Instances {
     }
 
     fun <T> remove(clazz: Class<T>): Boolean {
-        if (instances.containsKey(clazz.name)) {
-            instances.remove(clazz.name)
+        if (instances.containsKey(clazz.simpleName)) {
+            instances.remove(clazz.simpleName)
             return true
         }
         return false

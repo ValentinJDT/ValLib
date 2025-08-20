@@ -21,7 +21,7 @@ class YamlReader(inputStream: InputStream) {
 
             if(line.contains("[") && line.contains("]")) {
                 val listItems = line.substringAfter(":").replace("[", "").replace("]", "")
-                    .split(",").map { it.trim().replace("\"", "") }.toMutableList()
+                    .split(",").map { it.trim().replaceEscapedQuotes() }.toMutableList()
                 properties[line.substringBefore(":").trim()] = listItems
                 continue
             }
@@ -29,7 +29,7 @@ class YamlReader(inputStream: InputStream) {
             if(line.trim().startsWith("-")) {
                 val listKey = currentKey.takeIf { it.isNotEmpty() } ?: "listKey"
                 val existing = (properties[listKey] as? MutableList<String> ?: mutableListOf()).apply {
-                    add(line.trim().substring(1).trim().replace("\"", ""))
+                    add(line.trim().substring(1).trim().replaceEscapedQuotes())
                 }
 
                 properties[listKey] = existing
@@ -52,7 +52,7 @@ class YamlReader(inputStream: InputStream) {
             } else if(!properties.containsKey(currentKey + "." + elements[0])) {
 
                 if(elements[0].trim().length == elements[0].length) {
-                    properties[elements[0].trim()] = elements[1]
+                    properties[elements[0].trim()] = elements[1].trim().replaceEscapedQuotes()
                     currentKey = ""
 
                 } else {
@@ -60,7 +60,7 @@ class YamlReader(inputStream: InputStream) {
                         currentKey += "."
                     }
 
-                    properties[currentKey + elements[0].trim()] = elements[1]
+                    properties[currentKey + elements[0].trim()] = elements[1].trim().replaceEscapedQuotes()
                 }
             }
         }
@@ -68,13 +68,11 @@ class YamlReader(inputStream: InputStream) {
     }
 
     fun getString(key: String): String? = (properties[key] as? String)?.trim()?.convert()
-    fun getDouble(key: String): Double? = (properties[key] as? String)?.convert()
-    fun getFloat(key: String): Float? = (properties[key] as? String)?.convert()
-    fun getInt(key: String): Int? = (properties[key] as? String)?.convert()
-    fun getBoolean(key: String): Boolean? = (properties[key] as? String)?.convert()
-    fun getStringList(key: String): List<String>? {
-        return properties[key] as? List<String>
-    }
+    fun getDouble(key: String): Double? = (properties[key] as? String)?.trim()?.convert()
+    fun getFloat(key: String): Float? = (properties[key] as? String)?.trim()?.convert()
+    fun getInt(key: String): Int? = (properties[key] as? String)?.trim()?.convert()
+    fun getBoolean(key: String): Boolean? = (properties[key] as? String)?.trim()?.convert()
+    fun getStringList(key: String): List<String>? = properties[key] as? List<String>
 
     @Suppress("UNCHECKED_CAST")
     inline fun <reified T> getValue(properties: Map<String, String>, key: String): T? {
@@ -99,5 +97,17 @@ class YamlReader(inputStream: InputStream) {
             Boolean::class -> this.trim().toBoolean()
             else -> error("Converter unavailable for ${T::class}")
         } as T
+    }
+
+    private fun String.replaceEscapedQuotes(): String {
+        val result = if (startsWith("\"") && endsWith("\"") && length >= 2) {
+            // Enlever les guillemets au début et à la fin
+            substring(1, length - 1)
+        } else {
+            this
+        }
+
+        // Remplacer les \\" par un marqueur temporaire, puis restaurer en "
+        return result.replace("\\\"", "\uE000").replace("\"", "").replace("\uE000", "\"")
     }
 }

@@ -9,11 +9,11 @@ typealias Body = Tag.() -> Unit
  */
 open class Tag {
 
-    open val body: Body
-    open val tag: String
-    open var parent: Tag? = null
+    val body: Body
+    val tag: String
+    var parent: Tag? = null
 
-    private val properties = HashMap<String, String?>()
+    private val properties = LinkedHashMap<String, String?>()
 
     var className: String?
         get() = properties["class"]
@@ -33,6 +33,10 @@ open class Tag {
 
     fun set(key: String, value: String) = properties.put(key, value)
 
+    fun get(key: String): String? = properties[key]
+
+    fun has(key: String): Boolean = properties.containsKey(key)
+
     private fun String.tirets() = replace(Regex("([A-Z])"), " $1").lowercase().replace(" ", "-")
 
     operator fun String.invoke(body: Body = {}): Tag {
@@ -45,13 +49,13 @@ open class Tag {
 
     override fun toString(): String {
         val rendered = render()
-        return if (str == null) "<$tag${ if(className != null) " class=\"$className\"" else ""}${properties.map { " ${it.key}=\"${it.value}\"" }.joinToString("")}${if(rendered != "") ">${rendered}</$tag>" else "/>"}" else str!!
+        return if (str == null) "<$tag${properties.map { " ${it.key}=\"${it.value}\"" }.joinToString("")}${if(rendered != "") ">${rendered}</$tag>" else "/>"}" else str!!
     }
 }
 
-class html(override var parent: Tag? = null, override val body: Body) : Tag(body, "html", parent)
+class html(parent: Tag? = null, body: Body) : Tag(body, "html", parent)
 
-class body(override var parent: Tag? = null, override val body: Body) : Tag(body, "body", parent)
+class body(parent: Tag? = null, body: Body) : Tag(body, "body", parent)
 
 private class text(str: String) : Tag({}, "") {
     init {
