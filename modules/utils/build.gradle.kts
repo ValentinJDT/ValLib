@@ -1,2 +1,7 @@
+dependencies {
+    testImplementation(kotlin("test"))
+}
 
-version = "0.1.0"
+tasks.test {
+    useJUnitPlatform()
+}
