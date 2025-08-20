@@ -1,6 +1,6 @@
 plugins {
     java
-    kotlin("jvm") version "1.9.21"
+    kotlin("jvm") version "2.1.10"
     id("maven-publish")
 }
 
@@ -41,6 +41,7 @@ java {
 }
 
 subprojects {
+    apply(plugin = "java")
     apply(plugin = "kotlin")
     apply(plugin = "maven-publish")
 
