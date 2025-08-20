@@ -1,13 +1,12 @@
 plugins {
     java
     kotlin("jvm") version "2.1.10"
-    id("maven-publish")
+    `maven-publish`
 }
 
+val JDK_VERSION: Int = 17
 group = property("group") as String
 version = property("version") as String
-
-val JDK_VERSION: Int = 17
 
 repositories {
     mavenCentral()
