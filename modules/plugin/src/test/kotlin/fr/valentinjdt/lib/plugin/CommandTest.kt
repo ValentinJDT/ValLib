@@ -58,7 +58,7 @@ class CommandTest {
         assertEquals(1, command.disableCalls)
     }
 
-    private class TestCommand(name: String, description: String, version: String) : Command(name, description, version) {
+    private class TestCommand(name: String, description: String, version: String, override val subCommandsCompletions: List<SubCommandCompletion> = listOf()) : Command(name, description, version) {
         var executeCalls = 0
         var executeArgs: List<String> = emptyList()
         var enableCalls = 0
