@@ -1,19 +1,18 @@
 plugins {
     java
     kotlin("jvm") version "2.1.10"
-    id("maven-publish")
+    `maven-publish`
 }
 
+val JDK_VERSION: Int = 17
 group = property("group") as String
 version = property("version") as String
-
-val JDK_VERSION: Int = 17
 
 repositories {
     mavenCentral()
 }
 
-val moduleNames = File(rootDir, "modules").listFiles().filter { it.isDirectory }.map { it.name }
+val moduleNames = File(rootDir, "modules").listFiles().filter { it.isDirectory && it.name != "build" }.map { it.name }
 
 dependencies {
     moduleNames.forEach { name ->
@@ -23,7 +22,7 @@ dependencies {
 
 tasks.jar {
     configurations["compileClasspath"].forEach { file: File ->
-        if(moduleNames.contains(file.name.removeSuffix(".jar"))) {
+        if(moduleNames.any { file.name.removeSuffix(".jar").startsWith("ValLib-${it}") }) {
             from(zipTree(file.absoluteFile))
         }
     }

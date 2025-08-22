@@ -1,6 +1,8 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package fr.valentinjdt.lib.tests
 
-fun <T> assertNotNull(value: T?): T = if(value == null) { throw AssertionError("null") } else { value }
+fun <T> assertNotNull(value: T?): T = value ?: throw AssertionError("null")
 fun assertNull(value: Any?): Unit = if(value != null) { throw AssertionError("null") } else { }
 fun assertTrue(boolean: Boolean?): Unit = if(boolean == null || !boolean) { throw AssertionError("false") } else { }
 fun assertFalse(boolean: Boolean?): Unit = if(boolean == null || boolean) { throw AssertionError("true") } else { }
