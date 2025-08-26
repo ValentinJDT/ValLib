@@ -17,7 +17,7 @@ class PluginLoaderTest {
     @TempDir
     lateinit var tempDir: File
 
-    private lateinit var pluginLoader: PluginLoader<TestPlugin>
+    private lateinit var pluginLoader: PluginLoader<Plugin>
     private lateinit var pluginDirectory: String
 
     @BeforeEach
@@ -39,15 +39,15 @@ class PluginLoaderTest {
     @Test
     fun `test createInstance and getInstance`() {
         // Test creating a new instance
-        val created = PluginLoader.createInstance<TestPlugin>(pluginDirectory)
+        val created = PluginLoader.createInstance<Plugin>(pluginDirectory)
         assertTrue(created)
 
         // Test getting the same instance again
-        val notCreated = PluginLoader.createInstance<TestPlugin>(pluginDirectory)
+        val notCreated = PluginLoader.createInstance<Plugin>(pluginDirectory)
         assertFalse(notCreated)
 
         // Test that getInstance returns the same instance
-        val instance = PluginLoader.getInstance<TestPlugin>(pluginDirectory)
+        val instance = PluginLoader.getInstance<Plugin>(pluginDirectory)
         assertNotNull(instance)
     }
 
@@ -61,7 +61,7 @@ class PluginLoaderTest {
     fun `test unloadPluginsFiles`() {
         // Setup a test plugin manually
         val testPlugin = TestPlugin("test-plugin", "Test description")
-        testPlugin.url = URL("file://" + tempDir.absolutePath + "/test-plugin.jar")
+        testPlugin.jarUrl = URL("file://" + tempDir.absolutePath + "/test-plugin.jar")
 
         // Créer un URLClassLoader vide pour éviter l'erreur de cast
         val emptyUrls = arrayOf<URL>()
@@ -83,7 +83,7 @@ class PluginLoaderTest {
     }
 
     // This class is used for testing plugin functionality
-    class TestPlugin(name: String, description: String = "", version: String = "1.2.3") : Plugin(name, description, version) {
+    class TestPlugin(override val name: String, override val description: String = "", override val version: String = "1.2.3") : Plugin() {
         var enableCalls = 0
         var disableCalls = 0
 
