@@ -198,7 +198,8 @@ class PluginLoader<T : IPlugin>(val directory: String) {
         } ?: return Pair(null, null)
 
         val plugin = clazz.getDeclaredConstructor().newInstance() as T
-        plugin.url = jarUrl
+        plugin.jarUrl = jarUrl
+        plugin.pluginLoader = this
 
         val matchedPlugin = plugins.keys.find { it.name == plugin.name }
 
@@ -211,15 +212,6 @@ class PluginLoader<T : IPlugin>(val directory: String) {
         plugins[plugin] = classLoader
 
         return Pair(plugin, classLoader)
-    }
-
-    private fun getProperties(classLoader: URLClassLoader, fileName: String): Properties {
-        val properties = Properties()
-        val inputStream = classLoader.getResourceAsStream(fileName)
-
-        inputStream?.run { properties.load(this) }
-
-        return properties
     }
 
     fun executeCommand(name: String, args: List<String>): Boolean {
@@ -238,4 +230,8 @@ class PluginLoader<T : IPlugin>(val directory: String) {
         return found
     }
 
+}
+
+fun getProperties(classLoader: URLClassLoader, fileName: String): Properties = Properties().apply {
+    classLoader.getResourceAsStream(fileName)?.run { load(this) }
 }
