@@ -16,7 +16,7 @@ val moduleNames = File(rootDir, "modules").listFiles().filter { it.isDirectory &
 
 dependencies {
     moduleNames.forEach { name ->
-        implementation(project(":modules:${name}"))
+        implementation(project(":$name"))
     }
 }
 

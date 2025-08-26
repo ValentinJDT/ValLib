@@ -8,7 +8,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/modules" />
             <option value="$PROJECT_DIR$/modules/configuration" />
             <option value="$PROJECT_DIR$/modules/connection" />
             <option value="$PROJECT_DIR$/modules/event" />
