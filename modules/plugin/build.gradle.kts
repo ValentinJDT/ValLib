@@ -1,6 +1,6 @@
 dependencies {
-    implementation(project(":modules:utils"))
-    implementation(project(":modules:event"))
+    implementation(project(":utils"))
+    implementation(project(":event"))
     testImplementation(kotlin("test"))
 }
 

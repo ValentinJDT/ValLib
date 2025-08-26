@@ -17,10 +17,8 @@ class PluginLoader<T : IPlugin>(val directory: String) {
 
     init {
         val dir = File(directory)
-
         if(!dir.exists())
             dir.mkdirs()
-
         loadPlugins()
     }
 
@@ -60,14 +58,12 @@ class PluginLoader<T : IPlugin>(val directory: String) {
             val fixedDir = dir.normalize().replace(" ", "_").lowercase()
 
             synchronized(PluginLoader::class.java) {
-
                 val loader = loaders[T::class.java.name + "_" + fixedDir] ?: run {
                     val newLoader = PluginLoader<T>(fixedDir)
                     loaders[T::class.java.name + "_" + fixedDir] = newLoader
                     newLoader.enableAllPlugins()
                     newLoader
                 }
-
                 return loader as PluginLoader<T>
             }
         }
@@ -84,6 +80,10 @@ class PluginLoader<T : IPlugin>(val directory: String) {
 
     }
 
+    /**
+     * Enable all loaded plugins.
+     * If a plugin can't be enabled, it will be unloaded.
+     */
     fun enableAllPlugins() {
         plugins.keys.forEach {
             try {
@@ -95,36 +95,51 @@ class PluginLoader<T : IPlugin>(val directory: String) {
         }
     }
 
+    /** Enable a plugin. */
     fun enablePlugin(plugin: T) {
+        EventRegister.runEvent(PluginPreEnableEvent(plugin))
         plugin.onEnable()
+        EventRegister.runEvent(PluginEnableEvent(plugin))
     }
 
+    /** Reload a plugin by its name. */
     fun reloadPlugin(name: String) {
         plugins.keys.find { it.name == name }?.apply { reloadPlugin(this) }
     }
 
+    /** Reload a plugin. */
     fun reloadPlugin(plugin: T) {
         unloadPlugin(plugin)
-        loadPlugin(File(plugin.url.path), true)
+        loadPlugin(File(plugin.jarUrl.path), true)
     }
 
+    /** Reload all plugins. */
     fun reloadAllPlugins() {
         plugins.keys.forEach {
             unloadPlugin(it)
-            loadPlugin(File(it.url.path), true)
+            loadPlugin(File(it.jarUrl.path), true)
         }
     }
 
+    /** Call [IPlugin.onDisable] of all loaded plugins. */
     fun disableAllPlugins() = plugins.keys.forEach(IPlugin::onDisable)
 
+    /** Call [IPlugin.onDisable] of the plugin by its name. */
     fun disablePlugin(name: String) {
         plugins.keys.find { it.name == name }?.apply { disablePlugin(this) }
     }
 
-    fun disablePlugin(plugin: T) = plugin.onDisable()
+    /** Call [IPlugin.onDisable] of the plugin. */
+    fun disablePlugin(plugin: T) {
+        EventRegister.runEvent(PluginPreDisableEvent(plugin))
+        plugin.onDisable()
+        EventRegister.runEvent(PluginDisableEvent(plugin))
+    }
 
+    /** Unload a plugin. */
     fun unloadPlugin(plugin: T) = unloadPlugin(plugin.name)
 
+    /** Unload a plugin by its name. */
     fun unloadPlugin(name: String) {
         plugins.entries.find { it.key.name == name }?.apply {
             if(EventRegister.runEvent(PluginUnLoadEvent(this.key))) {
@@ -135,12 +150,14 @@ class PluginLoader<T : IPlugin>(val directory: String) {
         }
     }
 
+    /** Load all plugins from the directory. */
     private fun loadPlugins() {
         for(file in File(directory).listFiles { _, filename -> filename.endsWith(".jar") }!!) {
             loadPlugin(file)
         }
     }
 
+    /** Load a plugin from a file. If [callEnable] is true, it will call [IPlugin.onEnable] if the plugin is loaded. */
     fun loadPlugin(file: File, callEnable: Boolean = false): T? {
 
         var (plugin, classLoader) = loadMainClassPlugin(file.toURI().toURL())
@@ -198,7 +215,8 @@ class PluginLoader<T : IPlugin>(val directory: String) {
         } ?: return Pair(null, null)
 
         val plugin = clazz.getDeclaredConstructor().newInstance() as T
-        plugin.url = jarUrl
+        plugin.jarUrl = jarUrl
+        plugin.pluginLoader = this
 
         val matchedPlugin = plugins.keys.find { it.name == plugin.name }
 
@@ -211,15 +229,6 @@ class PluginLoader<T : IPlugin>(val directory: String) {
         plugins[plugin] = classLoader
 
         return Pair(plugin, classLoader)
-    }
-
-    private fun getProperties(classLoader: URLClassLoader, fileName: String): Properties {
-        val properties = Properties()
-        val inputStream = classLoader.getResourceAsStream(fileName)
-
-        inputStream?.run { properties.load(this) }
-
-        return properties
     }
 
     fun executeCommand(name: String, args: List<String>): Boolean {
@@ -238,4 +247,8 @@ class PluginLoader<T : IPlugin>(val directory: String) {
         return found
     }
 
+}
+
+fun getProperties(classLoader: URLClassLoader, fileName: String): Properties = Properties().apply {
+    classLoader.getResourceAsStream(fileName)?.run { load(this) }
 }

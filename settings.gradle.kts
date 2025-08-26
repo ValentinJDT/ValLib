@@ -12,5 +12,6 @@ plugins {
 rootProject.name = "ValLib"
 
 File(rootDir, "modules").listFiles().filter { it.isDirectory && it.name != "build" }.forEach { module ->
-    include(":modules:${module.name}")
+    include(module.name)
+    project(":${module.name}").projectDir = module
 }
