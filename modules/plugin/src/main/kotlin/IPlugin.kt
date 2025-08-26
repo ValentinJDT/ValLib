@@ -1,5 +1,6 @@
 package fr.valentinjdt.lib.plugin
 
+import fr.valentinjdt.lib.plugin.config.Configuration
 import java.io.File
 import java.net.URL
 import java.util.Properties
@@ -22,6 +23,8 @@ interface IPlugin {
     val website: String?
     /** The URL of the plugin, used for loading resources. [PluginLoader] define it. */
     var jarUrl: URL
+    /** The configuration. [PluginLoader] define it. */
+    val configuration: Configuration
     /** The loader that manages this plugin. [PluginLoader] define it. */
     var pluginLoader: PluginLoader<*>
     /** Call when the plugin is enabled. */
