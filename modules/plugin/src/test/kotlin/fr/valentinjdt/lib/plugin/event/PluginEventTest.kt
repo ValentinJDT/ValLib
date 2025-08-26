@@ -2,7 +2,7 @@ package fr.valentinjdt.lib.plugin.event
 
 import fr.valentinjdt.lib.event.EventRegister
 import fr.valentinjdt.lib.event.Listener
-import fr.valentinjdt.lib.plugin.IPlugin
+import fr.valentinjdt.lib.plugin.Plugin
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.net.URL
@@ -24,7 +24,7 @@ class PluginEventTest {
         listeners.clear()
 
         testPlugin = TestPlugin("test-plugin", "Test Plugin Description", "4.1.2")
-        testPlugin.url = URL("file:///test/plugin.jar")
+        testPlugin.jarUrl = URL("file:///test/plugin.jar")
 
         testListener = TestPluginEventListener()
         EventRegister.registerListener(testListener)
@@ -36,7 +36,7 @@ class PluginEventTest {
 
         // Test event properties
         assertEquals(testPlugin, event.plugin)
-        assertEquals(testPlugin.url.path, event.path)
+        assertEquals(testPlugin.jarUrl.path, event.path)
         assertFalse(event.cancel)
 
         // Test cancellation
@@ -56,7 +56,7 @@ class PluginEventTest {
 
         // Test event properties
         assertEquals(testPlugin, event.plugin)
-        assertEquals(testPlugin.url.path, event.path)
+        assertEquals(testPlugin.jarUrl.path, event.path)
         assertFalse(event.cancel)
 
         // Test cancellation
@@ -91,7 +91,7 @@ class PluginEventTest {
 
         // Test event properties
         assertEquals(testPlugin, event.plugin)
-        assertEquals(testPlugin.url.path, event.path)
+        assertEquals(testPlugin.jarUrl.path, event.path)
 
         // Test event dispatching
         testListener.reset()
@@ -100,8 +100,8 @@ class PluginEventTest {
         assertEquals(testPlugin.name, testListener.lastAlreadyLoadedPluginName)
     }
 
-    class TestPlugin(override val name: String, override val description: String, override val version: String) : IPlugin {
-        override lateinit var url: URL
+    class TestPlugin(override val name: String, override val description: String, override val version: String) : Plugin() {
+        override lateinit var jarUrl: URL
 
         override fun onEnable() {}
         override fun onDisable() {}

@@ -15,17 +15,17 @@ class PluginTest {
 
         // URL should not be initialized yet
         assertFailsWith<IllegalStateException> {
-            plugin.url
+            plugin.jarUrl
         }
 
         // Set the URL
         val testUrl = URL("file:///test/plugin.jar")
-        plugin.url = testUrl
-        assertEquals(testUrl, plugin.url)
+        plugin.jarUrl = testUrl
+        assertEquals(testUrl, plugin.jarUrl)
 
         // Trying to set the URL again should throw an exception
         assertFailsWith<IllegalStateException> {
-            plugin.url = URL("file:///another/path.jar")
+            plugin.jarUrl = URL("file:///another/path.jar")
         }
     }
 
@@ -42,7 +42,8 @@ class PluginTest {
         assertEquals(1, plugin.disableCalls)
     }
 
-    private class TestPlugin(name: String, description: String, version: String) : Plugin(name, description, version) {
+    private class TestPlugin(override val name: String, override val description: String, override val version: String) : Plugin() {
+
         var enableCalls = 0
         var disableCalls = 0
 

@@ -95,7 +95,7 @@ class InstancesTests {
             val instancesClass = Instances::class.java
             val instancesField = instancesClass.getDeclaredField("instances")
             instancesField.isAccessible = true
-            val instances = instancesField.get(Instances) as MutableMap<String, Any>
+            val instances = instancesField.get(Instances) as MutableMap<*, *>
             instances.clear()
         } catch (e: Exception) {
             fail("Impossible de nettoyer les instances: ${e.message}")

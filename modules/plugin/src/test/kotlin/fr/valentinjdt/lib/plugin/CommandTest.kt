@@ -15,17 +15,17 @@ class CommandTest {
 
         // URL should not be initialized yet
         assertFailsWith<IllegalStateException> {
-            command.url
+            command.jarUrl
         }
 
         // Set the URL
         val testUrl = URL("file:///test/command.jar")
-        command.url = testUrl
-        assertEquals(testUrl, command.url)
+        command.jarUrl = testUrl
+        assertEquals(testUrl, command.jarUrl)
 
         // Trying to set the URL again should throw an exception
         assertFailsWith<IllegalStateException> {
-            command.url = URL("file:///another/path.jar")
+            command.jarUrl = URL("file:///another/path.jar")
         }
     }
 
@@ -58,7 +58,11 @@ class CommandTest {
         assertEquals(1, command.disableCalls)
     }
 
-    private class TestCommand(name: String, description: String, version: String, override val subCommandsCompletions: List<SubCommandCompletion> = listOf()) : Command(name, description, version) {
+    private class TestCommand(override val name: String,
+                              override val description: String, override val version: String) : Command() {
+
+        override val subCommandsCompletions: List<SubCommandCompletion> = listOf()
+
         var executeCalls = 0
         var executeArgs: List<String> = emptyList()
         var enableCalls = 0
