@@ -95,7 +95,6 @@ class HtmlTests {
         }
 
         val htmlString = tag.toString()
-        println(htmlString)
         assertTrue(htmlString.contains("<img src=\"image.jpg\" alt=\"An image\"/>"), "Self-closing tags should be properly rendered")
         assertTrue(htmlString.contains("<input type=\"text\" placeholder=\"Enter text\"/>"), "Self-closing input tag should be properly rendered")
         assertTrue(htmlString.contains("<br/>"), "Empty br tag should be properly rendered")
