@@ -1,5 +1,6 @@
 package fr.valentinjdt.lib.plugin
 
+import fr.valentinjdt.lib.plugin.config.Configuration
 import java.net.URL
 import java.net.URLClassLoader
 import java.nio.file.Files
@@ -39,6 +40,7 @@ abstract class Plugin: IPlugin {
 
     override var jarUrl: URL by InitOnceProperty()
     override var pluginLoader: PluginLoader<*> by InitOnceProperty()
+    override val configuration: Configuration by lazy { Configuration(this) }
     override fun onEnable() {}
     override fun onDisable() {}
 }
